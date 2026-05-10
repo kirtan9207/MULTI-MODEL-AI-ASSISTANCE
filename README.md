@@ -45,3 +45,50 @@
 - `/server`: Node.js backend server handling API routes and Anakin integration logic.
 - `index.html`: The main Chat AI Assistant dashboard.
 - `accounts.html`: The secure platform connection portal.
+
+## 🏗️ High-Level Design (HLD)
+
+BRO's architecture is built to seamlessly bridge the gap between user intent and multi-platform execution without relying on direct 3rd-party API access (which is often restricted).
+
+```mermaid
+graph TD
+    A[User / Client] -->|Voice / Text Intent| B(BRO Frontend UI)
+    B -->|API Request| C{Express.js Backend}
+    
+    C -->|Session Mgmt| D[Anakin Browser Sessions API]
+    C -->|Scraping / Action| E[Anakin Universal Scraper API]
+    C -->|Deal Hunting| F[Anakin Agentic Search API]
+    
+    D -.->|Auth Bypass| G[(Zomato, Uber, WhatsApp, etc.)]
+    E -.->|Live Data Extraction| G
+    F -.->|Live Promo Codes| H[(Public Web)]
+    
+    G -->|JSON Data| C
+    H -->|JSON Data| C
+    C -->|Synthesized Result & UI Card| B
+```
+
+## 🔄 Low-Level Design (LLD): Account Connection Flow
+
+Connecting a user's third-party account securely without breaking CAPTCHAs or IP bans.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant UI as BRO UI
+    participant S as Node Server
+    participant A as Anakin Cloud
+    participant P as Platform (e.g., Zomato)
+
+    U->>UI: Clicks "Connect Zomato" & Enters Phone
+    UI->>S: POST /api/sessions/create {phone}
+    S->>A: Create Persistent Browser Session
+    A->>P: Navigate to Login & Request OTP
+    P-->>U: Sends SMS OTP
+    U->>UI: Enters OTP in UI
+    UI->>S: POST /api/sessions/confirm {otp}
+    S->>A: Inject OTP into cloud browser
+    A->>P: Submit OTP & Capture Session Cookies
+    A-->>S: Session Authenticated
+    S-->>UI: Success (Store in LocalStorage)
+```
