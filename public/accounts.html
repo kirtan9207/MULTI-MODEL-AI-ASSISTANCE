@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRO — Connect Your Accounts</title>
+  <meta name="description" content="Connect Zomato, Swiggy, Uber, Ola, WhatsApp, Gmail and more to BRO.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <span>BRO</span>
+      </div>
+      <div class="navbar-links">
+        <a href="/" class="btn btn-primary">AI Assistant</a>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="hero" style="padding:40px 0 30px;">
+      <div class="hero-badge">Account Management</div>
+      <h1>Connect Your <span class="gradient">Accounts</span></h1>
+      <p>Login to your platforms so BRO can fetch personalized prices, offers & wallet data in real-time.</p>
+    </section>
+
+    <!-- Section: Food Delivery -->
+    <div class="section-label">Food Delivery</div>
+    <div class="platforms-grid" style="margin-bottom:30px;">
+      <div class="platform-card" data-platform="zomato" onclick="connectPlatform('zomato')">
+        <div class="platform-icon"><img src="/images/zomato.svg" class="real-icon" alt="Zomato"></div>
+        <div class="platform-name">Zomato</div>
+        <div class="platform-type">Phone + OTP</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+      <div class="platform-card" data-platform="swiggy" onclick="connectPlatform('swiggy')">
+        <div class="platform-icon"><img src="/images/swiggy.svg" class="real-icon" alt="Swiggy"></div>
+        <div class="platform-name">Swiggy</div>
+        <div class="platform-type">Phone + OTP</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+    </div>
+
+    <!-- Section: Ride Booking -->
+    <div class="section-label">Ride Booking</div>
+    <div class="platforms-grid" style="margin-bottom:30px;">
+      <div class="platform-card" data-platform="uber" onclick="connectPlatform('uber')">
+        <div class="platform-icon"><img src="/images/uber.svg" class="real-icon" alt="Uber"></div>
+        <div class="platform-name">Uber</div>
+        <div class="platform-type">Email / Phone</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+      <div class="platform-card" data-platform="ola" onclick="connectPlatform('ola')">
+        <div class="platform-icon"><img src="/images/ola.svg" class="real-icon" alt="Ola"></div>
+        <div class="platform-name">Ola</div>
+        <div class="platform-type">Phone + OTP</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+      <div class="platform-card" data-platform="rapido" onclick="connectPlatform('rapido')">
+        <div class="platform-icon"><img src="/images/rapido.svg" class="real-icon" alt="Rapido"></div>
+        <div class="platform-name">Rapido</div>
+        <div class="platform-type">Phone + OTP</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+    </div>
+
+    <!-- Section: Messaging & Notifications -->
+    <div class="section-label">Messaging & Notifications</div>
+    <div class="platforms-grid" style="margin-bottom:30px;">
+      <div class="platform-card" data-platform="whatsapp" onclick="connectPlatform('whatsapp')">
+        <div class="platform-icon"><img src="/images/whatsapp.svg" class="real-icon" alt="WhatsApp"></div>
+        <div class="platform-name">WhatsApp</div>
+        <div class="platform-type">Phone + OTP</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+      <div class="platform-card" data-platform="gmail" onclick="connectPlatform('gmail')">
+        <div class="platform-icon"><img src="/images/gmail.svg" class="real-icon" alt="Gmail"></div>
+        <div class="platform-name">Gmail</div>
+        <div class="platform-type">Google Sign-in</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+    </div>
+
+    <!-- Section: Calendar -->
+    <div class="section-label">Calendar & Others</div>
+    <div class="platforms-grid" style="margin-bottom:40px;">
+      <div class="platform-card" data-platform="google" onclick="connectPlatform('google')">
+        <div class="platform-icon"><img src="/images/google.svg" class="real-icon" alt="Google"></div>
+        <div class="platform-name">Google Calendar</div>
+        <div class="platform-type">Google Sign-in</div>
+        <div class="platform-status"><span class="status-text">Connect</span></div>
+      </div>
+    </div>
+
+    <!-- Connected Count -->
+    <section class="cta-section" style="padding:10px 0 40px;">
+      <p class="cta-hint" id="cta-hint" style="font-size:0.9rem;">0 platforms connected</p>
+      <a href="/" class="btn btn-primary btn-large" style="margin-top:16px;">Go to AI Assistant</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built for <strong>Build With Anakin</strong> Hackathon 2026 · Powered by <a href="https://anakin.io" target="_blank">Anakin.io</a></p>
+    </footer>
+  </div>
+
+  <!-- ═══ LOGIN MODAL ═══ -->
+  <div class="modal-overlay" id="login-modal" onclick="closeModalOutside(event)">
+    <div class="login-modal">
+      <div class="login-modal-header" id="modal-header">
+        <div class="login-platform-icon" id="modal-icon"><img src="" class="real-icon"></div>
+        <h2 id="modal-title">Connect Zomato</h2>
+        <p id="modal-subtitle">Login with your mobile number</p>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <!-- Step 1: Auth Input (3 variants) -->
+      <div class="login-step" id="step-phone">
+        <!-- AUTH TYPE A: Phone + OTP -->
+        <div id="phone-auth-section">
+          <div class="phone-input-group">
+            <div class="country-code"><span>🇮🇳</span><span>+91</span></div>
+            <input type="tel" id="phone-input" class="login-input" placeholder="Enter mobile number" maxlength="10" oninput="validatePhone()" autocomplete="off">
+          </div>
+          <button class="btn btn-primary login-btn" id="send-otp-btn" onclick="sendOTP()" disabled>Send OTP</button>
+          <p class="login-note" id="otp-note">Platform will send an OTP to your mobile</p>
+        </div>
+        <!-- AUTH TYPE B: Email/Phone + OTP (Uber) -->
+        <div id="email-phone-auth-section" style="display:none;">
+          <div style="margin-bottom:20px;">
+            <input type="text" id="email-phone-input" class="login-input" style="width:100%;border-radius:var(--radius-md);" placeholder="Enter email or mobile number" oninput="validateEmailPhone()" autocomplete="off">
+          </div>
+          <button class="btn btn-primary login-btn" id="send-otp-btn-ep" onclick="sendOTPEmailPhone()" disabled>Continue</button>
+          <p class="login-note" id="otp-note-ep">Verification code will be sent</p>
+        </div>
+        <!-- AUTH TYPE C: Google Account -->
+        <div id="google-auth-section" style="display:none;">
+          <div style="margin-bottom:14px;">
+            <label style="display:block;font-size:0.8rem;color:var(--text-secondary);margin-bottom:6px;">Email</label>
+            <input type="email" id="email-input" class="login-input" style="width:100%;border-radius:var(--radius-md);" placeholder="your.email@gmail.com" oninput="validateGoogleInputs()" autocomplete="off">
+          </div>
+          <div style="margin-bottom:20px;">
+            <label style="display:block;font-size:0.8rem;color:var(--text-secondary);margin-bottom:6px;">Password</label>
+            <input type="password" id="password-input" class="login-input" style="width:100%;border-radius:var(--radius-md);" placeholder="Enter password" oninput="validateGoogleInputs()" autocomplete="off">
+          </div>
+          <button class="btn btn-primary login-btn" id="google-login-btn" onclick="googleSignIn()" disabled>Sign in with Google</button>
+          <p class="login-note">Secured via Anakin.io encrypted sessions</p>
+        </div>
+      </div>
+
+      <!-- Step 2: OTP -->
+      <div class="login-step" id="step-otp" style="display:none;">
+        <div class="otp-sent-msg" id="otp-sent-msg">OTP sent</div>
+        <div class="otp-input-group">
+          <input type="text" maxlength="1" class="otp-box" data-index="0" oninput="handleOTPInput(this)" onkeydown="handleOTPKeydown(event, this)" autocomplete="off">
+          <input type="text" maxlength="1" class="otp-box" data-index="1" oninput="handleOTPInput(this)" onkeydown="handleOTPKeydown(event, this)" autocomplete="off">
+          <input type="text" maxlength="1" class="otp-box" data-index="2" oninput="handleOTPInput(this)" onkeydown="handleOTPKeydown(event, this)" autocomplete="off">
+          <input type="text" maxlength="1" class="otp-box" data-index="3" oninput="handleOTPInput(this)" onkeydown="handleOTPKeydown(event, this)" autocomplete="off">
+          <input type="text" maxlength="1" class="otp-box" data-index="4" oninput="handleOTPInput(this)" onkeydown="handleOTPKeydown(event, this)" autocomplete="off">
+          <input type="text" maxlength="1" class="otp-box" data-index="5" oninput="handleOTPInput(this)" onkeydown="handleOTPKeydown(event, this)" autocomplete="off">
+        </div>
+        <button class="btn btn-primary login-btn" id="verify-otp-btn" onclick="verifyOTP()" disabled>Verify & Connect</button>
+        <div class="otp-actions">
+          <button class="btn-text" id="resend-btn" onclick="resendOTP()" disabled>Resend OTP</button>
+          <span class="otp-timer" id="otp-timer">00:30</span>
+        </div>
+      </div>
+
+      <!-- Step 3: Verifying -->
+      <div class="login-step" id="step-verifying" style="display:none;">
+        <div class="verify-animation"><div class="verify-spinner"></div></div>
+        <p class="verify-text">Connecting to <span id="verify-platform-name">Zomato</span>...</p>
+        <p class="verify-subtext" id="verify-subtext">Setting up authenticated session via Anakin.io</p>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="login-step" id="step-success" style="display:none;">
+        <div class="success-animation">
+          <div class="success-circle">
+            <svg viewBox="0 0 52 52" class="success-checkmark">
+              <circle cx="26" cy="26" r="25" fill="none" class="checkmark-circle"/>
+              <path fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" class="checkmark-check"/>
+            </svg>
+          </div>
+        </div>
+        <p class="success-text" id="success-text">Connected! ✨</p>
+        <p class="success-subtext" id="success-subtext">Your account is now linked to BRO</p>
+      </div>
+
+      <div class="login-modal-footer">
+        <span>🔒 Secured by</span>
+        <strong>Anakin.io Browser Sessions</strong>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/accounts.js"></script>
+</body>
+</html>

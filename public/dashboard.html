@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DealPilot — Voice Assistant</title>
+  <meta name="description" content="Speak what you need. DealPilot finds the best deal across all your connected platforms.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <div class="logo-icon">🎯</div>
+        <span>DealPilot</span>
+      </div>
+      <div class="navbar-links">
+        <div class="connected-badges" id="connected-badges"></div>
+        <a href="/" class="btn">⚙️ Accounts</a>
+      </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:4px;">What do you need?</h1>
+        <p style="color:var(--text-secondary);font-size:0.9rem;">Tap the mic and speak, or type below</p>
+      </div>
+    </div>
+
+    <!-- Mic Section -->
+    <section class="mic-section" id="mic-section">
+      <div class="mic-container">
+        <button class="mic-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
+        <div class="mic-rings">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+        </div>
+      </div>
+      <p class="mic-label" id="mic-label">Tap to speak</p>
+
+      <!-- Transcript -->
+      <div class="transcript-box" id="transcript-box">
+        Waiting for your command...
+      </div>
+
+      <!-- Text Input Fallback -->
+      <div class="text-input-fallback">
+        <input type="text" id="text-input" placeholder="Or type: &quot;Order biryani near Koramangala&quot;" onkeydown="if(event.key==='Enter')handleTextInput()">
+        <button class="btn btn-primary" onclick="handleTextInput()">Search</button>
+      </div>
+
+      <!-- Quick Suggestions -->
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+        <button class="btn" onclick="quickSearch('Order butter chicken near Koramangala')" style="font-size:0.78rem;">🍗 Butter Chicken</button>
+        <button class="btn" onclick="quickSearch('Find cheapest biryani near HSR Layout')" style="font-size:0.78rem;">🍛 Biryani</button>
+        <button class="btn" onclick="quickSearch('Book a ride from Koramangala to MG Road')" style="font-size:0.78rem;">🚗 Book Ride</button>
+        <button class="btn" onclick="quickSearch('Order pizza near Indiranagar')" style="font-size:0.78rem;">🍕 Pizza</button>
+      </div>
+    </section>
+
+    <!-- Loading with Real-time Scraping Status -->
+    <section class="loading-section" id="loading-section">
+      <div class="loading-animation">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+      </div>
+      <p class="loading-text" id="loading-text">
+        Fetching real-time data from your accounts...
+      </p>
+      <!-- Live scraping status per platform -->
+      <div id="scrape-status" style="max-width:400px;margin:20px auto 0;text-align:left;"></div>
+    </section>
+
+    <!-- Results -->
+    <section class="results-section" id="results-section">
+      <!-- Voice Response -->
+      <div class="voice-response-bar" id="voice-response-bar">
+        <div class="voice-response-icon">🔊</div>
+        <div class="voice-response-text" id="voice-response-text"></div>
+      </div>
+
+      <div class="results-header">
+        <h2 id="results-title">Results for <span class="highlight">...</span></h2>
+        <button class="btn" onclick="resetSearch()">🎤 New Search</button>
+      </div>
+
+      <div class="results-grid" id="results-grid"></div>
+
+      <div class="savings-banner" id="savings-banner" style="display:none;">
+        <div class="savings-amount" id="savings-amount">₹0</div>
+        <div class="savings-label">saved by choosing the best deal!</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built for <strong>Build With Anakin</strong> Hackathon 2026 · Powered by <a href="https://anakin.io" target="_blank">Anakin.io</a></p>
+    </footer>
+  </div>
+
+  <script src="/js/voice.js"></script>
+  <script src="/js/results.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

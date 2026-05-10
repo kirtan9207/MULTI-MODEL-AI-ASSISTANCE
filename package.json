@@ -1,0 +1,19 @@
+{
+  "name": "dealpilot",
+  "version": "1.0.0",
+  "description": "AI Voice Assistant that finds the best deals across Zomato, Swiggy, Uber & Ola — powered by Anakin.io",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "keywords": ["ai", "voice-assistant", "deal-finder", "anakin", "web-scraping"],
+  "author": "DealPilot Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0",
+    "cors": "^2.8.5"
+  }
+}
