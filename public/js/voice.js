@@ -13,7 +13,8 @@ function initVoice() {
 
   if (!SpeechRecognition) {
     console.warn('[Voice] Speech Recognition not supported in this browser');
-    document.getElementById('mic-label').textContent = 'Voice not supported — use text input';
+    const overlayText = document.getElementById('listening-text');
+    if (overlayText) overlayText.textContent = 'Voice not supported — use text input';
     return;
   }
 
@@ -41,15 +42,19 @@ function initVoice() {
       }
     }
 
-    const box = document.getElementById('transcript-box');
+    const box = document.getElementById('listening-transcript');
     if (finalTranscript) {
-      box.textContent = finalTranscript;
-      box.classList.add('has-text');
+      if (box) box.textContent = finalTranscript;
+      
+      // Stop listening after a command is received
+      stopListening();
+      
       // Process the final command
-      processVoiceCommand(finalTranscript);
+      if (typeof processVoiceCommand === 'function') {
+        processVoiceCommand(finalTranscript);
+      }
     } else if (interimTranscript) {
-      box.textContent = interimTranscript + '...';
-      box.classList.add('has-text');
+      if (box) box.textContent = interimTranscript + '...';
     }
   };
 
@@ -59,7 +64,8 @@ function initVoice() {
     updateMicUI(false);
 
     if (event.error === 'not-allowed') {
-      document.getElementById('mic-label').textContent = 'Microphone access denied — use text input';
+      const overlayText = document.getElementById('listening-text');
+      if (overlayText) overlayText.textContent = 'Microphone access denied';
     }
   };
 
@@ -76,12 +82,13 @@ function toggleMic() {
   }
 
   if (isListening) {
-    recognition.stop();
+    stopListening();
   } else {
     // Reset transcript
-    const box = document.getElementById('transcript-box');
-    box.textContent = 'Listening...';
-    box.classList.remove('has-text');
+    const box = document.getElementById('listening-transcript');
+    if (box) box.textContent = '';
+    const textEl = document.getElementById('listening-text');
+    if (textEl) textEl.textContent = 'Listening...';
 
     try {
       recognition.start();
@@ -91,18 +98,24 @@ function toggleMic() {
   }
 }
 
+function stopListening() {
+  if (recognition && isListening) {
+    recognition.stop();
+  }
+  isListening = false;
+  updateMicUI(false);
+}
+
 function updateMicUI(listening) {
   const micBtn = document.getElementById('mic-btn');
-  const micLabel = document.getElementById('mic-label');
+  const overlay = document.getElementById('listening-overlay');
 
   if (listening) {
-    micBtn.classList.add('listening');
-    micLabel.textContent = 'Listening... Speak now';
-    micLabel.classList.add('active');
+    if (micBtn) micBtn.classList.add('listening');
+    if (overlay) overlay.classList.add('active');
   } else {
-    micBtn.classList.remove('listening');
-    micLabel.textContent = 'Tap to speak';
-    micLabel.classList.remove('active');
+    if (micBtn) micBtn.classList.remove('listening');
+    if (overlay) overlay.classList.remove('active');
   }
 }
 

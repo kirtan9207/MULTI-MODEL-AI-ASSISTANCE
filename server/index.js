@@ -398,7 +398,7 @@ app.listen(PORT, () => {
   console.log('');
   console.log('  ╔══════════════════════════════════════════╗');
   console.log('  ║                                          ║');
-  console.log('  ║   🎙️  DealPilot is running!               ║');
+  console.log('  ║   🎙️  BRO is running!                     ║');
   console.log(`  ║   🌐 http://localhost:${PORT}                ║`);
   console.log('  ║                                          ║');
   console.log('  ║   Powered by Anakin.io Scraping API      ║');
@@ -408,3 +408,5 @@ app.listen(PORT, () => {
   console.log(`  Anakin API Key: ${process.env.ANAKIN_API_KEY ? '✅ Configured' : '❌ Not set (demo mode)'}`);
   console.log('');
 });
+
+module.exports = app;
